@@ -1,3 +1,5 @@
+#ifndef SYMBOL_H
+#define SYMBOL_H
 typedef struct Symbol {
         char *name;
         short type;
@@ -8,5 +10,12 @@ typedef struct Symbol {
         struct Symbol * next;
 } Symbol;
 
-void execerror(char* s, char* t);
+// Installs into symbol table
+Symbol *install(char *s, int t, double d);
 
+// Searches the symbol table
+Symbol *lookup(char *s);
+
+// Prints out error message
+void execerror(char* s, char* t);
+#endif

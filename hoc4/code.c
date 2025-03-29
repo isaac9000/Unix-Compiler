@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
-#include "hoc.h"
+#include "symbol.h"
+#include "code.h"
 #include "y.tab.h"
 #define NSTACK 256
 
@@ -134,6 +135,6 @@ void print() {
 void bltin() {
 	Datum d;
 	d = pop();
-	d.val = (*(double (*) ())(*pc++))(d.val);
+	d.val = (*(double (*) (double))(*pc++))(d.val);
 	push(d);
 }

@@ -24,23 +24,23 @@ void execerror(char*, char*);
 %%
 list:   /* nothing */
         | list '\n'
-        | list asgn '\n' { code2(pop, STOP); return 1; }
-        | list expr '\n' { code2(print, STOP); return 1; }
+        | list asgn '\n' { code2((Inst)pop, STOP); return 1; }
+        | list expr '\n' { code2((Inst)print, STOP); return 1; }
         | list error '\n' { yyerrok; }
         ;
-asgn:    VAR '=' expr { code3(varpush, (Inst)$1, assign); }
+asgn:    VAR '=' expr { code3((Inst)varpush, (Inst)$1, (Inst)assign); }
         ;
-expr:   NUMBER	{ code2(constpush, (Inst)$1); }
-        | VAR	{ code3(varpush, (Inst)$1, eval); }
+expr:   NUMBER	{ code2((Inst)constpush, (Inst)$1); }
+        | VAR	{ code3((Inst)varpush, (Inst)$1, (Inst)eval); }
         | asgn 
-        | BLTIN '(' expr ')' { code2(bltin, (Inst)$1->u.ptr); }
+        | BLTIN '(' expr ')' { code2((Inst)bltin, (Inst)$1->u.ptr); }
 	| '(' expr ')'
-        | expr '+' expr { code(add); }
-        | expr '-' expr { code(sub); }
-        | expr '*' expr { code(mul); }
-        | expr '/' expr { code(div); }
-	| expr '^' expr { code(power); }
-	| '-' expr %prec UNARYMINUS { code(negate); }
+        | expr '+' expr { code((Inst)add); }
+        | expr '-' expr { code((Inst)sub); }
+        | expr '*' expr { code((Inst)mul); }
+        | expr '/' expr { code((Inst)div); }
+	| expr '^' expr { code((Inst)power); }
+	| '-' expr %prec UNARYMINUS { code((Inst)negate); }
 %%
 #include <ctype.h>
 #include <setjmp.h>
