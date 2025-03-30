@@ -3,4 +3,5 @@
 #include "symbol.h"
 #include "code.h"
 #include "init.h"
+#include "dis.h"
 #endif

@@ -3,12 +3,10 @@
 #include "symbol.h"
 #include "code.h"
 #include "y.tab.h"
-#define NSTACK 256
 
 static Datum stack[NSTACK];
 static Datum *stackp;
 
-#define NPROG 2000
 Inst prog[NPROG];
 Inst *progp;
 Inst *pc;
@@ -58,7 +56,7 @@ void varpush() {
 	push(d);
 }
 
-void add() {
+void addop() {
 	Datum d1, d2;
 	d2 = pop();
 	d1 = pop();
@@ -66,7 +64,7 @@ void add() {
 	push(d1);
 }
 
-void sub() {
+void subop() {
 	Datum d1, d2;
 	d2 = pop();
 	d1 = pop();
@@ -74,7 +72,7 @@ void sub() {
 	push(d1);	
 }
 
-void mul() {
+void mulop() {
 	Datum d1, d2;
 	d2 = pop();
 	d1 = pop();
@@ -82,7 +80,7 @@ void mul() {
 	push(d1);
 }
 
-void div() {
+void divop() {
 	Datum d1, d2;
 	d1 = pop();
 	d2 = pop();
@@ -90,21 +88,21 @@ void div() {
 	push(d2);
 }
 
-void negate() {
+void negateop() {
 	Datum d1;
 	d1 = pop();
 	d1.val *= -1;
 	push(d1);
 }
 
-void power() {
+void powerop() {
 	Datum d1, d2;
 	d1 = pop();
 	d2 = pop();
 	d1.val = pow(d2.val, d1.val);
 	push(d1);
 }
-void eval() {
+void evalop() {
 	Datum d;
 	d = pop();
 	if (d.sym->type == UNDEF) {

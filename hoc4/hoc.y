@@ -4,6 +4,7 @@
 #include "init.h"
 #include "code.h"
 #include "hoc.h"
+#include "dis.h"
 /*#define YYSTYPE double */
 int yylex();
 int yyerror(char*);
@@ -31,16 +32,16 @@ list:   /* nothing */
 asgn:    VAR '=' expr { code3((Inst)varpush, (Inst)$1, (Inst)assign); }
         ;
 expr:   NUMBER	{ code2((Inst)constpush, (Inst)$1); }
-        | VAR	{ code3((Inst)varpush, (Inst)$1, (Inst)eval); }
+        | VAR	{ code3((Inst)varpush, (Inst)$1, (Inst)evalop); }
         | asgn 
         | BLTIN '(' expr ')' { code2((Inst)bltin, (Inst)$1->u.ptr); }
 	| '(' expr ')'
-        | expr '+' expr { code((Inst)add); }
-        | expr '-' expr { code((Inst)sub); }
-        | expr '*' expr { code((Inst)mul); }
-        | expr '/' expr { code((Inst)div); }
-	| expr '^' expr { code((Inst)power); }
-	| '-' expr %prec UNARYMINUS { code((Inst)negate); }
+        | expr '+' expr { code((Inst)addop); }
+        | expr '-' expr { code((Inst)subop); }
+        | expr '*' expr { code((Inst)mulop); }
+        | expr '/' expr { code((Inst)divop); }
+	| expr '^' expr { code((Inst)powerop); }
+	| '-' expr %prec UNARYMINUS { code((Inst)negateop); }
 %%
 #include <ctype.h>
 #include <setjmp.h>
@@ -51,12 +52,18 @@ jmp_buf begin;
 int main(int argc, char* argv[])
 {
         void fpecatch(int);
-
-        progname = argv[0];
+        
+	progname = argv[0];
         init();
         setjmp(begin);
         signal(SIGFPE, fpecatch);
 	for (initcode(); yyparse(); initcode()) {
+		char ** disarray = NULL; 
+		int dislength = 0;
+		disarray = disassemble(&dislength);
+		for (int i = 0; i < dislength; i++) {
+			printf("%s\n", disarray[i]);
+		} 
 		execute(prog);
 	}
         return 0;

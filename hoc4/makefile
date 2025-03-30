@@ -1,4 +1,4 @@
-OBJS = hoc.o code.o init.o math.o symbol.o
+OBJS = hoc.o code.o dis.o init.o math.o symbol.o
 
 YFLAGS = -d
 CFLAGS += -g #enable debugging

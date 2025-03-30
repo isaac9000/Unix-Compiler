@@ -2,6 +2,10 @@
 #define CODE_H
 #include "symbol.h"
 
+// For code.c and diss.c to change the size of the machine code array and evaluation stack
+#define NPROG 2000
+#define NSTACK 256
+
 // Data on the evaluation stack
 typedef union Datum {
         double val;
@@ -12,7 +16,7 @@ typedef union Datum {
 typedef int (*Inst)();
 
 // These are machine operation code
-void eval(), add(), sub(), mul(), div(), negate(), power();
+void evalop(), addop(), subop(), mulop(), divop(), negateop(), powerop();
 void assign(), bltin(), varpush(), constpush(), print();
 Datum pop();
 
