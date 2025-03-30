@@ -1,9 +1,10 @@
 OBJS = hoc.o code.o init.o math.o symbol.o
 
 YFLAGS = -d
+CFLAGS += -g #enable debugging
 
 hoc4:	$(OBJS)
-	cc $(OBJS) -lm -o hoc4
+	cc $(OBJS) -lm -g -o hoc4
 
 hoc.o code.o init.o symbol.o:	hoc.h
 
