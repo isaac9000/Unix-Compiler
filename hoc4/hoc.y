@@ -64,6 +64,7 @@ int main(int argc, char* argv[])
 		for (int i = 0; i < dislength; i++) {
 			printf("%s\n", disarray[i]);
 		} 
+		destroy();
 		execute(prog);
 	}
         return 0;
