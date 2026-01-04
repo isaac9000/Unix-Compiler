@@ -1,3 +1,5 @@
 # Unix-Compiler
 
-6 parts of a compiler detailed in UNIX Programming Environment
+Simple Unix Compiler that uses yacc and lex.
+
+Can evaluate arithmetic, functions, generate machine code, error handling, disassembly, and heap management. 
