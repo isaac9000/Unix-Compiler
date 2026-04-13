@@ -61,9 +61,6 @@ char** disassemble(int * size) {
 				disarray[i] = str;
 				disflag = 'i';
 				break;
-			default:
-				disarray[i] = strdup("not recognized");
-				break;
             case 'b':
                 str = malloc(32 * sizeof(char));
                 if (str == NULL) {
@@ -76,6 +73,9 @@ char** disassemble(int * size) {
                 disarray[i] = str;
                 disflag = 'i';
                 break;
+			default:
+				disarray[i] = strdup("not recognized");
+				break;
 		}
 		i++;
 	}
