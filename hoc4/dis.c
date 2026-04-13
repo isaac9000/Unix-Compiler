@@ -10,12 +10,13 @@ char * disarray[NPROG];
 
 char** disassemble(int * size) {
 	int i = 0;
+    disflag = 'i';
 
 	char * str = NULL;
 	Symbol * sym = NULL;
 	while (i < NPROG && !(prog[i] == STOP)) {
 		switch (disflag) {
-			case 'i': 
+			case 'i':
 				if (prog[i] == (Inst)evalop) {
 					disarray[i] = strdup("evalop");
                 		} else if (prog[i] == (Inst)addop) {
@@ -34,7 +35,7 @@ char** disassemble(int * size) {
 					disarray[i] = strdup("ass");
                 		} else if (prog[i] == (Inst)bltin) {
 					disarray[i] = strdup("bltin");
-					disflag = 's';
+					disflag = 'b';
                 		} else if (prog[i] == (Inst)varpush) {
 					disarray[i] = strdup("varpush");
 					disflag = 's';
@@ -57,13 +58,25 @@ char** disassemble(int * size) {
 					return disarray;
 				}
 				sprintf(str, "name: %s, type: %d, value: 0x%lx", sym->name, sym->type, (unsigned long)sym->u.val);
-				disarray[i] = str; 
+				disarray[i] = str;
 				disflag = 'i';
 				break;
 			default:
 				disarray[i] = strdup("not recognized");
 				break;
-		}		
+            case 'b':
+                str = malloc(32 * sizeof(char));
+                if (str == NULL) {
+                    printf("heap out of storage\n");
+                    *size = i;
+                    disarraysize = i;
+                    return disarray;
+                }
+                sprintf(str, "fptr: 0x%lx", (unsigned long)(uintptr_t)prog[i]);
+                disarray[i] = str;
+                disflag = 'i';
+                break;
+		}
 		i++;
 	}
 	*size = i;

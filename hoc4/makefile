@@ -1,7 +1,7 @@
 OBJS = hoc.o code.o dis.o init.o math.o symbol.o
 
 YFLAGS = -d
-CFLAGS += -g #enable debugging
+CFLAGS += -g -std=c99 #enable debugging
 
 hoc4:	$(OBJS)
 	cc $(OBJS) -lm -g -o hoc4
