@@ -14,8 +14,6 @@ The simplest version. Parses and evaluates arithmetic expressions directly in th
 - Parenthesised expressions
 - Floating-point numbers
 
-**Limitations:** No variables, no error recovery, no memory between lines.
-
 ---
 
 ### hoc2 — Variables and Error Recovery
